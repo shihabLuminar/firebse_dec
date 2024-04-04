@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:drawer_firebse_dec/view/home_screen/home_screen.dart';
 import 'package:drawer_firebse_dec/view/registration_screen/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 email: emailController.text,
                                 password: passController.text);
                         log(credential.user?.uid.toString() ?? "no data");
+                        if (credential.user?.uid != null) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'Failed to create Account , try again')));
+                        }
                       } on FirebaseAuthException catch (e) {
                         log(e.code.toString());
                         if (e.code == 'user-not-found') {
